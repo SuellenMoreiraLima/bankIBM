@@ -1,3 +1,4 @@
+// TransactionsService.java
 package com.agency.bankibm.service;
 
 import com.agency.bankibm.dto.TransactionsDTO;
@@ -41,6 +42,9 @@ public class TransactionsService {
         Optional<Transactions> optionalTransaction = transactionsRepository.findById(id);
         if (optionalTransaction.isPresent()) {
             Transactions transaction = optionalTransaction.get();
+            // Atualize os campos necessários da transação com base no DTO recebido
+            // transaction.setXXX(transactionsDTO.getXXX());
+            // ...
             return transactionsRepository.save(transaction).toDTO();
         } else {
             return null;

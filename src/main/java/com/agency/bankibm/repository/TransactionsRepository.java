@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TransactionsRepository extends JpaRepository<Transactions, Integer> {
-
     List<Transactions> findByAccountId(int accountId);
 
     Optional<Object> findByAccountIdAndType(int accountId, TransactionType transactionType);

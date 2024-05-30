@@ -6,6 +6,7 @@ import com.agency.bankibm.model.TransactionType;
 import com.agency.bankibm.model.Transactions;
 import com.agency.bankibm.repository.AccountRepository;
 import com.agency.bankibm.repository.TransactionsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +19,6 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final TransactionsRepository transactionsRepository;
 
-
     public AccountService(AccountRepository accountRepository, TransactionsRepository transactionsRepository) {
         this.accountRepository = accountRepository;
         this.transactionsRepository = transactionsRepository;
@@ -26,15 +26,17 @@ public class AccountService {
 
     @Transactional
     public AccountDTO depositar(int accountId, double valorDeposito) {
-
-        Optional<Account> getAccount = accountRepository.findById(accountId);
-        if (!getAccount.isPresent()) {
+        // Obter a conta com base no ID
+        Optional<Account> optionalAccount = accountRepository.findById(accountId);
+        if (!optionalAccount.isPresent()) {
             throw new RuntimeException("Conta não encontrada com ID: " + accountId);
         }
 
         // Atualizar o saldo da conta
-        Account account = getAccount.get();
+        Account account = optionalAccount.get();
         account.setBalance(account.getBalance() + valorDeposito);
+
+        // Salvar a conta atualizada
         Account savedAccount = accountRepository.save(account);
 
         // Registrar a transação de depósito
@@ -46,11 +48,13 @@ public class AccountService {
         depositTransaction.setAccount(savedAccount);
         transactionsRepository.save(depositTransaction);
 
+        // Retornar o DTO da conta atualizada
         return savedAccount.toDTO();
     }
 
     @Transactional
     public AccountDTO sacar(int accountId, double valorSaque) {
+        // Obter a conta com base no ID
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
         if (!optionalAccount.isPresent()) {
             throw new RuntimeException("Conta não encontrada com ID: " + accountId);
@@ -64,17 +68,20 @@ public class AccountService {
 
         // Atualizar o saldo da conta
         account.setBalance(account.getBalance() - valorSaque);
+
+        // Salvar a conta atualizada
         Account savedAccount = accountRepository.save(account);
 
         // Registrar a transação de saque
-        Transactions transaction = new Transactions();
-        transaction.setValueDescription(valorSaque);
-        transaction.setDescription("Saque");
-        transaction.setType(TransactionType.WITHDRAW);
-        transaction.setDateTime(LocalDateTime.now());
-        transaction.setAccount(savedAccount);
-        transactionsRepository.save(transaction);
+        Transactions withdrawTransaction = new Transactions();
+        withdrawTransaction.setValueDescription(valorSaque);
+        withdrawTransaction.setDescription("Saque");
+        withdrawTransaction.setType(TransactionType.WITHDRAW);
+        withdrawTransaction.setDateTime(LocalDateTime.now());
+        withdrawTransaction.setAccount(savedAccount);
+        transactionsRepository.save(withdrawTransaction);
 
+        // Retornar o DTO da conta atualizada
         return savedAccount.toDTO();
     }
 
@@ -93,8 +100,7 @@ public class AccountService {
         }
 
         // Atualizar o saldo da conta
-        Account account1 = optionalAccount.get();
-        account1.setBalance(account1.getBalance() - valorCompra);
+        account.setBalance(account.getBalance() - valorCompra);
 
         // Salvar a conta atualizada
         Account savedAccount = accountRepository.save(account);
@@ -108,8 +114,42 @@ public class AccountService {
         debitTransaction.setAccount(savedAccount);
         transactionsRepository.save(debitTransaction);
 
+        // Retornar o DTO da conta atualizada
         return savedAccount.toDTO();
     }
+
+//    @Transactional
+//    public AccountDTO credito(int accountId, double valorCompra) {
+//        // Obter a conta com base no ID
+//        Optional<Account> optionalAccount = accountRepository.findById(accountId);
+//        if (!optionalAccount.isPresent()) {
+//            throw new RuntimeException("Conta não encontrada com ID: " + accountId);
+//        }
+//
+//        // Verificar se o limite disponível é suficiente para a compra
+//        Account account = optionalAccount.get();
+//        if (account.getAvailableLimit() < valorCompra) {
+//            throw new RuntimeException("Limite disponível insuficiente para realizar a compra a crédito: " + valorCompra);
+//        }
+//
+//        // Atualizar o limite disponível da conta
+//        account.setAvailableLimit(account.getAvailableLimit() - valorCompra);
+//
+//        // Salvar a conta atualizada
+//        Account savedAccount = accountRepository.save(account);
+//
+//        // Registrar a transação de crédito
+//        Transactions creditTransaction = new Transactions();
+//        creditTransaction.setValueDescription(valorCompra);
+//        creditTransaction.setDescription("Compra a Crédito");
+//        creditTransaction.setType(TransactionType.CREDIT);
+//        creditTransaction.setDateTime(LocalDateTime.now());
+//        creditTransaction.setAccount(savedAccount);
+//        transactionsRepository.save(creditTransaction);
+//
+//        // Retornar o DTO da conta atualizada
+//        return savedAccount.toDTO();
+//    }
 
     @Transactional
     public AccountDTO credito(int accountId, double valorCompra) {
@@ -121,6 +161,11 @@ public class AccountService {
 
         // Verificar se o limite disponível é suficiente para a compra
         Account account = optionalAccount.get();
+//        double creditTotal = transactionsRepository
+//                .findByAccountIdAndType(accountId, TransactionType.CREDIT)
+//                .stream()
+//                .mapToDouble(transaction -> transaction.getValueDescription()) // Usando uma expressão lambda
+//                .sum();
 
         double creditTotal = transactionsRepository
                 .findByAccountIdAndType(accountId, TransactionType.CREDIT)
@@ -128,6 +173,7 @@ public class AccountService {
                 .map(Transactions.class::cast) // Convertendo para Transactions
                 .mapToDouble(Transactions::getValueDescription) // Agora é seguro chamar getValueDescription()
                 .sum();
+
 
         double availableLimit = account.getTotalLimit() - creditTotal;
 
@@ -150,52 +196,26 @@ public class AccountService {
         creditTransaction.setAccount(savedAccount);
         transactionsRepository.save(creditTransaction);
 
+        // Retornar o DTO da conta atualizada
         return savedAccount.toDTO();
     }
 
+
+
     public AccountDTO saveAccount(AccountDTO dto) {
         Account account = new Account(dto);
+
+//        Account account = new Account();
+//        account.setBalance(dto.getBalance());
+//        account.setCliente(dto.getCliente());
+//        account.setTotalLimit(dto.getTotalLimit());
+//        // Mapear os dados do DTO para a entidade Account
+//        // Exemplo: account.setSaldoEmConta(accountDTO.getSaldoEmConta());
+//        // Salvar a instância de Account
+//        Account savedAccount = accountRepository.save(account);
+//
+//        // Converter o Account salvo de volta para AccountDTO
         return account.toDTO();
-    }
-
-    @Transactional(readOnly = true)
-    public double getAccountBalance(int accountId) {
-        // Obter a conta com base no ID
-        Optional<Account> optionalAccount = accountRepository.findById(accountId);
-        if (!optionalAccount.isPresent()) {
-            throw new RuntimeException("Conta não encontrada com ID: " + accountId);
-        }
-        return optionalAccount.get().getBalance();
-    }
-
-    private void updateBalance(Account account, double newBalance) {
-        // Lógica de validação e atualização do saldo
-        if (newBalance < 0) {
-            throw new RuntimeException("Saldo não pode ser negativo");
-        }
-        account.setBalance(newBalance);
-    }
-
-//    public void transferirPorNumeroConta(int numeroContaOrigem, int numeroContaDestino, double valor) {
-//        // Verificar se ambas as contas existem
-//        Account contaOrigem = accountRepository.findByNumberAccount(numeroContaOrigem)
-//                .orElseThrow(() -> new RuntimeException("Conta origem não encontrada."));
-//        Account contaDestino = accountRepository.findByNumberAccount(numeroContaDestino)
-//                .orElseThrow(() -> new RuntimeException("Conta destino não encontrada."));
 //
-//        // Verificar saldo da conta origem
-//        if (contaOrigem.getBalance() < valor) {
-//            throw new RuntimeException("Saldo insuficiente na conta de origem.");
-//        }
-//
-//        // Atualizar saldos
-//        contaOrigem.setBalance(contaOrigem.getBalance() - valor);
-//        contaDestino.setBalance(contaDestino.getBalance() + valor);
-//
-//        // Salvar as alterações
-//        accountRepository.save(contaOrigem);
-//        accountRepository.save(contaDestino);
-//    }
-
-
+    }
 }

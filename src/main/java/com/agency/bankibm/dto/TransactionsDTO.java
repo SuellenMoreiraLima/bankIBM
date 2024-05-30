@@ -3,14 +3,10 @@ package com.agency.bankibm.dto;
 import com.agency.bankibm.model.Transactions;
 import com.agency.bankibm.model.TransactionType;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
 public class TransactionsDTO {
 
     private int id;
@@ -21,7 +17,7 @@ public class TransactionsDTO {
     private LocalDateTime dateTime;
 
     public TransactionsDTO() {
-        this.dateTime = LocalDateTime.now();
+        this.dateTime = LocalDateTime.now(); // Define o dateTime como o horário atual ao criar uma instância de TransactionsDTO
     }
 
     public Transactions toEntity(){

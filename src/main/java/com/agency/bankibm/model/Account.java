@@ -8,24 +8,28 @@ import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 @Entity
+@Table
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private double balance;
-    private double totalLimit;
-    private double availableLimit;
-    private double usedLimit;
-    private Status status;
+    private int id;
 
-    public Long getId() {
+    private double balance;
+
+    private double totalLimit;
+
+    private double availableLimit;
+
+    private double usedLimit;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -61,8 +65,10 @@ public class Account {
         this.usedLimit = usedLimit;
     }
 
+    // getters e setters
 
     public Account(AccountDTO dto) {
+        // mapear os campos
     }
 
     public AccountDTO toDTO() {
