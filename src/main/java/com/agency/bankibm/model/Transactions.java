@@ -1,6 +1,6 @@
 package com.agency.bankibm.model;
 
-import com.agency.bankibm.dto.TransactionDTO;
+import com.agency.bankibm.dto.TransactionsDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
@@ -74,11 +74,8 @@ public class Transactions {
         this.account = account;
     }
 
-    public TransactionDTO toDTO(){
+    public TransactionsDTO toDTO() {
         ModelMapper mapper = new ModelMapper();
-        TransactionDTO dto = mapper.map(this, TransactionDTO.class);
-
-        return dto;
-
+        return mapper.map(this, TransactionsDTO.class);
     }
 }

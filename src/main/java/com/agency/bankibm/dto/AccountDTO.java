@@ -14,7 +14,7 @@ import java.util.List;
 public class AccountDTO {
 
     private int id;
-    private int balance;
+    private double balance;
     private double totalLimit;
     private double availableLimit;
     private double usedLimit;

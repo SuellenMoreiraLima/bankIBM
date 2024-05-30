@@ -1,7 +1,7 @@
 package com.agency.bankibm.controller;
 
 import com.agency.bankibm.dto.AccountDTO;
-import com.agency.bankibm.model.Account;
+import com.agency.bankibm.model.*;
 import com.agency.bankibm.repository.AccountRepository;
 import com.agency.bankibm.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,51 @@ public class AccountController {
     @Autowired // Adiciona esta anotação para injetar o AccountService
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
+    }
+
+    @PostMapping("/depositar/{id}")
+    public ResponseEntity<AccountDTO> depositar(@PathVariable int id, @RequestBody DepositRequest request) {
+        try {
+            // Chamar o método depositar do serviço passando o ID da conta e o valor do depósito
+            AccountDTO accountDTO = accountService.depositar(id, request.getValorDeposito());
+            return ResponseEntity.ok(accountDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/sacar/{id}")
+    public ResponseEntity<AccountDTO> sacar(@PathVariable int id, @RequestBody WithdrawalRequest request) {
+        try {
+            // Chamar o método sacar do serviço passando o ID da conta e o valor do saque
+            AccountDTO accountDTO = accountService.sacar(id, request.getValorSaque());
+            return ResponseEntity.ok(accountDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        }
+    }
+
+    @PostMapping("/debito/{id}")
+    public ResponseEntity<AccountDTO> debitar(@PathVariable int id, @RequestBody DebitoRequet request) {
+        try {
+            // Chamar o método debitar do serviço passando o ID da conta e o valor da compra
+            AccountDTO accountDTO = accountService.debito(id, request.getValorCompra());
+            return ResponseEntity.ok(accountDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/credito/{id}")
+    public ResponseEntity<AccountDTO> creditar(@PathVariable int id, @RequestBody CreditoRequest request) {
+        try {
+            // Chamar o método creditar do serviço passando o ID da conta e o valor da compra
+            AccountDTO accountDTO = accountService.credito(id, request.getValorCompra());
+            return ResponseEntity.ok(accountDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 //    @GetMapping("/{accountId}")

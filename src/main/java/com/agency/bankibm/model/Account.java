@@ -17,7 +17,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private int balance;
+    private double balance;
 
     private double totalLimit;
 
@@ -33,11 +33,11 @@ public class Account {
         this.id = id;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
