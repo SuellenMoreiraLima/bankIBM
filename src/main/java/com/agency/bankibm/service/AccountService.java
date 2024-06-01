@@ -6,7 +6,6 @@ import com.agency.bankibm.model.TransactionType;
 import com.agency.bankibm.model.Transactions;
 import com.agency.bankibm.repository.AccountRepository;
 import com.agency.bankibm.repository.TransactionsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,13 +25,11 @@ public class AccountService {
 
     @Transactional
     public AccountDTO depositar(int accountId, double valorDeposito) {
-        // Obter a conta com base no ID
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
         if (!optionalAccount.isPresent()) {
             throw new RuntimeException("Conta não encontrada com ID: " + accountId);
         }
 
-        // Atualizar o saldo da conta
         Account account = optionalAccount.get();
         account.setBalance(account.getBalance() + valorDeposito);
 
@@ -100,7 +97,8 @@ public class AccountService {
         }
 
         // Atualizar o saldo da conta
-        account.setBalance(account.getBalance() - valorCompra);
+        Account account1 = optionalAccount.get();
+        account1.setBalance(account1.getBalance() - valorCompra);
 
         // Salvar a conta atualizada
         Account savedAccount = accountRepository.save(account);
@@ -217,5 +215,13 @@ public class AccountService {
 //        // Converter o Account salvo de volta para AccountDTO
         return account.toDTO();
 //
+    }
+    @Transactional(readOnly = true)
+    public double getAccountBalance(int accountId) {
+        Optional<Account> optionalAccount = accountRepository.findById(accountId);
+        if (!optionalAccount.isPresent()) {
+            throw new RuntimeException("Conta não encontrada com ID: " + accountId);
+        }
+        return optionalAccount.get().getBalance();
     }
 }

@@ -2,14 +2,14 @@ package com.agency.bankibm.model;
 
 public class DebitoRequet {
 
-        private double valorCompra;
+        private double valorDebito;
 
-        public double getValorCompra() {
-            return valorCompra;
+        public double getValorDebito() {
+            return valorDebito;
         }
 
-        public void setValorCompra(double valorCompra) {
-            this.valorCompra = valorCompra;
+        public void setValorDebito(double valorDebito) {
+            this.valorDebito = valorDebito;
         }
 
 }

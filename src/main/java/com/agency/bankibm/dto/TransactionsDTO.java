@@ -3,10 +3,14 @@ package com.agency.bankibm.dto;
 import com.agency.bankibm.model.Transactions;
 import com.agency.bankibm.model.TransactionType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class TransactionsDTO {
 
     private int id;

@@ -7,8 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
-import java.time.LocalDate;
-
 @Entity
 @Table
 @AllArgsConstructor
@@ -17,32 +15,37 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private LocalDate dateNasciment;
+    private int id;
+
+    private int age;
+
     private String name;
-    private String email;
-    private String password;
-    private String phone;
+
     private int numberAccount;
-//    private String address;
+
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id") // Adicione esta linha para indicar a coluna na tabela de Client que faz referência a Account
     private Account account;
 
-    public Long getId() {
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "login_id") // Adicione esta linha para indicar a coluna na tabela de Client que faz referência a Account
+    private Login login;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public LocalDate getDateNasciment() {
-        return dateNasciment;
+    public int getAge() {
+        return age;
     }
 
-    public void setDateNasciment(LocalDate dateNasciment) {
-        this.dateNasciment = dateNasciment;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getName() {
@@ -61,22 +64,6 @@ public class Client {
         this.numberAccount = numberAccount;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public Account getAccount() {
         return account;
     }
@@ -85,12 +72,12 @@ public class Client {
         this.account = account;
     }
 
-    public String getEmail() {
-        return email;
+    public Login getLogin() {
+        return login;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLogin(Login login) {
+        this.login = login;
     }
 
     public ClientDTO toDTO() {
