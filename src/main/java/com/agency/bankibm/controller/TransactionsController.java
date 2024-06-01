@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/transactions")
+@CrossOrigin(origins = "*")
 public class TransactionsController {
 
     private final TransactionsService transactionsService;

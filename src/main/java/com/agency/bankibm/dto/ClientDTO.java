@@ -2,6 +2,7 @@ package com.agency.bankibm.dto;
 
 import com.agency.bankibm.model.Account;
 import com.agency.bankibm.model.Client;
+import com.agency.bankibm.model.Login;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -15,11 +16,11 @@ public class ClientDTO {
 
     private String name;
 
-    private String email;
-
     private int numberAccount;
 
     private Account account;
+
+    private Login login;
 
     public Client toEntity(){
         ModelMapper mapper = new ModelMapper();
