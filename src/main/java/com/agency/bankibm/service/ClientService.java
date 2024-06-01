@@ -2,7 +2,6 @@
 package com.agency.bankibm.service;
 
 import com.agency.bankibm.dto.ClientDTO;
-import com.agency.bankibm.dto.LoginDTO;
 import com.agency.bankibm.model.Account;
 import com.agency.bankibm.model.Client;
 import com.agency.bankibm.model.Login;
@@ -54,14 +53,13 @@ public class ClientService {
 
     @Transactional
     public ClientDTO saveClient(ClientDTO clientDTO) {
-        // Criar uma nova conta
-        Account account = new Account();
-        accountRepository.save(account); // Salva a conta no banco de dados
 
-        // Criar um novo cliente
-        Client client = clientDTO.toEntity(); // Converte o DTO para entidade
+        Account account = new Account();
+        accountRepository.save(account);
+
+        Client client = clientDTO.toEntity();
         client.setAccount(account); // Associa a conta ao cliente
-        clientRepository.save(client); // Salva o cliente no banco de dados
+        clientRepository.save(client);
 
         if (clientDTO.getLogin() != null) {
 
@@ -71,39 +69,9 @@ public class ClientService {
             loginRepository.save(login);
         }
 
-//        // Criar um novo login
-//        Login login = new Login();
-//        login.setEmail(clientDTO.getLogin().getEmail());
-//        login.setPassword(clientDTO.getLogin().getPassword());
-//        loginRepository.save(login);
-
 
         return client.toDTO(); // Retorna o DTO do cliente criado
     }
-
-
-//    public ClientDTO saveClient(ClientDTO clientDTO) {
-//        // Criar uma nova conta
-//        Account account = new Account();
-//        account.setBalance(clientDTO.getAccount().getBalance()); // Define o saldo inicial
-//        account.setTotalLimit(clientDTO.getAccount().getTotalLimit()); // Define o limite total inicial
-//        accountRepository.save(account); // Salva a conta no banco de dados
-//
-//        // Criar um novo cliente
-//        Client client = clientDTO.toEntity(); // Converte o DTO para entidade
-//        client.setAccount(account); // Associa a conta ao cliente
-//        clientRepository.save(client); // Salva o cliente no banco de dados
-//
-//        // Criar um novo login
-//        Login login = new Login();
-//        login.setClient(client);
-//        login.setEmail(client.getEmail());
-//        login.getClient().setNumberAccount(client.getNumberAccount());
-//        login.setPassword(password); // Usa a senha fornecida
-//        loginRepository.save(login); // Salva o login no banco de dados
-//
-//        return client.toDTO(); // Retorna o DTO do cliente criado
-//    }
 
 
     public ClientDTO updateClient(int idClient, ClientDTO clientDTO) {
@@ -112,8 +80,8 @@ public class ClientService {
         if(optional.isPresent() == true ){
             Client clientBd = optional.get();
             clientBd.setName(clientDTO.getName());
-//            clientBd.setEmail(clientDTO.getEmail());
             clientBd.setAge(clientDTO.getAge());
+            clientBd.setEmail(clientDTO.getEmail());
             clientBd.setNumberAccount(clientDTO.getNumberAccount());
 
            if (clientBd.getAccount() != null && clientDTO.getAccount() != null) {

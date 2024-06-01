@@ -17,7 +17,7 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    @Autowired // Adiciona esta anotação para injetar o AccountService
+    @Autowired
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }

@@ -16,6 +16,8 @@ public class ClientDTO {
 
     private String name;
 
+    private String email;
+
     private int numberAccount;
 
     private Account account;
