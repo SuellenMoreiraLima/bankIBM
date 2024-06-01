@@ -116,39 +116,6 @@ public class AccountService {
         return savedAccount.toDTO();
     }
 
-//    @Transactional
-//    public AccountDTO credito(int accountId, double valorCompra) {
-//        // Obter a conta com base no ID
-//        Optional<Account> optionalAccount = accountRepository.findById(accountId);
-//        if (!optionalAccount.isPresent()) {
-//            throw new RuntimeException("Conta não encontrada com ID: " + accountId);
-//        }
-//
-//        // Verificar se o limite disponível é suficiente para a compra
-//        Account account = optionalAccount.get();
-//        if (account.getAvailableLimit() < valorCompra) {
-//            throw new RuntimeException("Limite disponível insuficiente para realizar a compra a crédito: " + valorCompra);
-//        }
-//
-//        // Atualizar o limite disponível da conta
-//        account.setAvailableLimit(account.getAvailableLimit() - valorCompra);
-//
-//        // Salvar a conta atualizada
-//        Account savedAccount = accountRepository.save(account);
-//
-//        // Registrar a transação de crédito
-//        Transactions creditTransaction = new Transactions();
-//        creditTransaction.setValueDescription(valorCompra);
-//        creditTransaction.setDescription("Compra a Crédito");
-//        creditTransaction.setType(TransactionType.CREDIT);
-//        creditTransaction.setDateTime(LocalDateTime.now());
-//        creditTransaction.setAccount(savedAccount);
-//        transactionsRepository.save(creditTransaction);
-//
-//        // Retornar o DTO da conta atualizada
-//        return savedAccount.toDTO();
-//    }
-
     @Transactional
     public AccountDTO credito(int accountId, double valorCompra) {
         // Obter a conta com base no ID
@@ -159,11 +126,6 @@ public class AccountService {
 
         // Verificar se o limite disponível é suficiente para a compra
         Account account = optionalAccount.get();
-//        double creditTotal = transactionsRepository
-//                .findByAccountIdAndType(accountId, TransactionType.CREDIT)
-//                .stream()
-//                .mapToDouble(transaction -> transaction.getValueDescription()) // Usando uma expressão lambda
-//                .sum();
 
         double creditTotal = transactionsRepository
                 .findByAccountIdAndType(accountId, TransactionType.CREDIT)
@@ -202,19 +164,8 @@ public class AccountService {
 
     public AccountDTO saveAccount(AccountDTO dto) {
         Account account = new Account(dto);
-
-//        Account account = new Account();
-//        account.setBalance(dto.getBalance());
-//        account.setCliente(dto.getCliente());
-//        account.setTotalLimit(dto.getTotalLimit());
-//        // Mapear os dados do DTO para a entidade Account
-//        // Exemplo: account.setSaldoEmConta(accountDTO.getSaldoEmConta());
-//        // Salvar a instância de Account
-//        Account savedAccount = accountRepository.save(account);
-//
-//        // Converter o Account salvo de volta para AccountDTO
         return account.toDTO();
-//
+
     }
     @Transactional(readOnly = true)
     public double getAccountBalance(int accountId) {

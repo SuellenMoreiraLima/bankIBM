@@ -18,7 +18,6 @@ public class Transactions {
 
     private double valueDescription;
     private String description;
-    //Sera debito ou credito, se escolher debito devo mostrar o valor que tem disponivel na conta antes da transação, se for credito deve mostrar o valor disponivel para nova transação
     private TransactionType type;
     private LocalDateTime dateTime;
 

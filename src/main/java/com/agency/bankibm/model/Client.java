@@ -21,15 +21,17 @@ public class Client {
 
     private String name;
 
+    private String email;
+
     private int numberAccount;
 
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id") // Adicione esta linha para indicar a coluna na tabela de Client que faz referência a Account
+    @JoinColumn(name = "account_id")
     private Account account;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "login_id") // Adicione esta linha para indicar a coluna na tabela de Client que faz referência a Account
+    @JoinColumn(name = "login_id")
     private Login login;
 
     public int getId() {
@@ -78,6 +80,14 @@ public class Client {
 
     public void setLogin(Login login) {
         this.login = login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public ClientDTO toDTO() {

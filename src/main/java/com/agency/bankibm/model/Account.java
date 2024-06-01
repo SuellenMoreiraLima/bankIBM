@@ -65,10 +65,8 @@ public class Account {
         this.usedLimit = usedLimit;
     }
 
-    // getters e setters
 
     public Account(AccountDTO dto) {
-        // mapear os campos
     }
 
     public AccountDTO toDTO() {

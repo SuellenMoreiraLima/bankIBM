@@ -21,7 +21,7 @@ public class TransactionsDTO {
     private LocalDateTime dateTime;
 
     public TransactionsDTO() {
-        this.dateTime = LocalDateTime.now(); // Define o dateTime como o horário atual ao criar uma instância de TransactionsDTO
+        this.dateTime = LocalDateTime.now();
     }
 
     public Transactions toEntity(){

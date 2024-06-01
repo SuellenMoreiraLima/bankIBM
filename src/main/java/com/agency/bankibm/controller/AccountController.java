@@ -55,12 +55,6 @@ public class AccountController {
 
     @PostMapping("/debit/{id}")
     public ResponseEntity<AccountDTO> debitar(@PathVariable int id, @RequestBody DebitoRequet request) {
-//        try {
-//            AccountDTO accountDTO = accountService.debito(id, request.getValorCompra());
-//            return ResponseEntity.ok(accountDTO);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
         double valorDebito = request.getValorDebito();
         System.out.println("Valor de débito recebido: " + valorDebito);
         try {
@@ -75,7 +69,7 @@ public class AccountController {
     @PostMapping("/credit/{id}")
     public ResponseEntity<AccountDTO> creditar(@PathVariable int id, @RequestBody CreditoRequest request) {
         try {
-            // Chamar o método creditar do serviço passando o ID da conta e o valor da compra
+            // Chama o método creditar do serviço passando o ID da conta e o valor da compra
             AccountDTO accountDTO = accountService.credito(id, request.getValorCompra());
             return ResponseEntity.ok(accountDTO);
         } catch (Exception e) {
@@ -83,52 +77,9 @@ public class AccountController {
         }
     }
 
-//    @GetMapping("/{accountId}")
-//    public ResponseEntity<AccountDTO> getAccount(@PathVariable int accountId) {
-//        Account account = accountService.get(accountId);
-//        if (account != null) {
-//            return ResponseEntity.ok(account.toDTO());
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
-//    @GetMapping("/list")
-//    public ResponseEntity<AccountDTO> getAccount(@PathVariable Long accountId) {
-//        Account account = accountService.getAccountById(accountId);
-//        if (account != null) {
-//            return ResponseEntity.ok(account.toDTO());
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
-//    @PostMapping
-//    public ResponseEntity<AccountDTO> saveAccount(@RequestBody AccountDTO accountDTO) {
-//        Account account = accountService.saveAccount(accountDTO);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(account.toDTO());
-//    }
     @PostMapping
     public ResponseEntity<AccountDTO> saveAccount(@RequestBody AccountDTO accountDTO) {
     AccountDTO savedAccount = accountService.saveAccount(accountDTO);
     return ResponseEntity.status(HttpStatus.CREATED).body(savedAccount);
     }
-
-//    @PutMapping("/{accountId}")
-//    public ResponseEntity<AccountDTO> updateAccount(@PathVariable Long accountId, @RequestBody AccountDTO accountDTO) {
-//        Account updatedAccount = accountService.updateAccount(accountId, accountDTO);
-//        if (updatedAccount != null) {
-//            return ResponseEntity.ok(updatedAccount.toDTO());
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-//
-//    @DeleteMapping("/{accountId}")
-//    public ResponseEntity<Void> deleteAccount(@PathVariable Long accountId) {
-//        accountService.deleteAccount(accountId);
-//        return ResponseEntity.noContent().build();
-//    }
-
-
 }
