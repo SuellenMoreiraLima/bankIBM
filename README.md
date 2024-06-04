@@ -5,7 +5,6 @@
 2. [Pré-requisitos](#pré-requisitos)
 3. [Subindo o Backend](#subindo-o-backend)
 4. [Subindo o Frontend](#subindo-o-frontend)
-5. [Dicas Adicionais](#dicas-adicionais)
 
 ## Introdução
 Este documento fornece um passo a passo detalhado para configurar e executar o backend e frontend do projeto.
