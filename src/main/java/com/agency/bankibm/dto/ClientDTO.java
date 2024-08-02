@@ -21,7 +21,6 @@ public class ClientDTO {
 
     private Account account;
 
-    private Login login;
 
     public Client toEntity(){
         ModelMapper mapper = new ModelMapper();

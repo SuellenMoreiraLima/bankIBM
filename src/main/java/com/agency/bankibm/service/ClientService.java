@@ -20,14 +20,12 @@ public class ClientService {
     // Declaração dos repositórios usados pelo serviço
     private final ClientRepository clientRepository;
     private final AccountRepository accountRepository;
-    private final LoginRepository loginRepository;
 
     // Construtor que inicializa os repositórios com injeção de dependência
     @Autowired
-    public ClientService(ClientRepository clientRepository, AccountRepository accountRepository, LoginRepository loginRepository) {
+    public ClientService(ClientRepository clientRepository, AccountRepository accountRepository) {
         this.clientRepository = clientRepository;
         this.accountRepository = accountRepository;
-        this.loginRepository = loginRepository;
     }
 
     // Método que retorna todos os clientes como uma lista de ClientDTO
@@ -70,13 +68,6 @@ public class ClientService {
         client.setAccount(account); // Associa a conta ao cliente
         clientRepository.save(client);
 
-        // Se houver dados de login no ClientDTO, cria e salva um novo login
-        if (clientDTO.getLogin() != null) {
-            Login login = new Login();
-            login.setEmail(clientDTO.getLogin().getEmail());
-            login.setPassword(clientDTO.getLogin().getPassword());
-            loginRepository.save(login);
-        }
 
         // Retorna o DTO do cliente criado
         return client.toDTO();
