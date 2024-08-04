@@ -2,27 +2,24 @@ package com.agency.bankibm.dto;
 
 import com.agency.bankibm.model.Account;
 import com.agency.bankibm.model.Client;
-import com.agency.bankibm.model.Login;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
 public class ClientDTO {
     private int id;
-
-    private int age;
-
+    private LocalDate dateNasciment;
     private String name;
-
     private String email;
-
+    private String password;
+    private String phone;
     private int numberAccount;
-
     private Account account;
 
-    private Login login;
 
     public Client toEntity(){
         ModelMapper mapper = new ModelMapper();

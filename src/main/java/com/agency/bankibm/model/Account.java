@@ -8,28 +8,24 @@ import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 @Entity
-@Table
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
+    private Long id;
     private double balance;
-
     private double totalLimit;
-
     private double availableLimit;
-
     private double usedLimit;
+    private Status status;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
