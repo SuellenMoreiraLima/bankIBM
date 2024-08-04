@@ -1,7 +1,7 @@
 package com.agency.bankibm.dto;
 
 import com.agency.bankibm.model.Account;
-import com.agency.bankibm.model.Client;
+import com.agency.bankibm.model.Status;
 import com.agency.bankibm.model.Transactions;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +18,7 @@ public class AccountDTO {
     private double totalLimit;
     private double availableLimit;
     private double usedLimit;
+    private Status status;
     private List<Transactions> transactions;
 
     public Account toEntity(){

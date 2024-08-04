@@ -16,16 +16,15 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @Autowired // Adiciona esta anotação para injetar o AccountService
+    @Autowired
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
 
     @PostMapping("/deposit/{id}")
-    public ResponseEntity<AccountDTO> depositar(@PathVariable int id, @RequestBody DepositRequest request) {
+    public ResponseEntity<AccountDTO> depositar(@PathVariable int id, @RequestBody double valorDeposito) {
         try {
-            // Chamar o método depositar do serviço passando o ID da conta e o valor do depósito
-            AccountDTO accountDTO = accountService.depositar(id, request.getValorDeposito());
+            AccountDTO accountDTO = accountService.depositar(id, valorDeposito);
             return ResponseEntity.ok(accountDTO);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -33,10 +32,9 @@ public class AccountController {
     }
 
     @PostMapping("/sacar/{id}")
-    public ResponseEntity<AccountDTO> sacar(@PathVariable int id, @RequestBody WithdrawalRequest request) {
+    public ResponseEntity<AccountDTO> sacar(@PathVariable int id, @RequestBody double valorSaque) {
         try {
-            // Chamar o método sacar do serviço passando o ID da conta e o valor do saque
-            AccountDTO accountDTO = accountService.sacar(id, request.getValorSaque());
+            AccountDTO accountDTO = accountService.sacar(id, valorSaque);
             return ResponseEntity.ok(accountDTO);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -54,12 +52,12 @@ public class AccountController {
     }
 
     @PostMapping("/debit/{id}")
-    public ResponseEntity<AccountDTO> debitar(@PathVariable int id, @RequestBody DebitoRequet request) {
-        double valorDebito = request.getValorDebito();
+    public ResponseEntity<AccountDTO> debitar(@PathVariable int id, @RequestBody double valorDebito) {
+//        double valorDebito = request.getValorDebito();
         System.out.println("Valor de débito recebido: " + valorDebito);
         try {
             // Chamar o método debitar do serviço passando o ID da conta e o valor do débito
-            AccountDTO accountDTO = accountService.debito(id, request.getValorDebito());
+            AccountDTO accountDTO = accountService.debito(id, valorDebito);
             return ResponseEntity.ok(accountDTO);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -67,10 +65,10 @@ public class AccountController {
     }
 
     @PostMapping("/credit/{id}")
-    public ResponseEntity<AccountDTO> creditar(@PathVariable int id, @RequestBody CreditoRequest request) {
+    public ResponseEntity<AccountDTO> creditar(@PathVariable int id, @RequestBody double valorCompraNoCredito) {
         try {
             // Chama o método creditar do serviço passando o ID da conta e o valor da compra
-            AccountDTO accountDTO = accountService.credito(id, request.getValorCompra());
+            AccountDTO accountDTO = accountService.credito(id, valorCompraNoCredito);
             return ResponseEntity.ok(accountDTO);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

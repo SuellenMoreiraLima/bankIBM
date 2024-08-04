@@ -9,20 +9,17 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "transactions")
 public class Transactions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private double valueDescription;
     private String description;
     private TransactionType type;
     private LocalDateTime dateTime;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
     private Account account;
 
     public int getId() {
