@@ -1,7 +1,5 @@
-// TransactionsService.java
 package com.agency.bankibm.service;
 
-// Importações necessárias
 import com.agency.bankibm.dto.TransactionsDTO;
 import com.agency.bankibm.model.Transactions;
 import com.agency.bankibm.repository.TransactionsRepository;

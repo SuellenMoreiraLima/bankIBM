@@ -1,7 +1,5 @@
-// Definição do pacote
 package com.agency.bankibm.service;
 
-// Importações necessárias
 import com.agency.bankibm.dto.AccountDTO;
 import com.agency.bankibm.model.Account;
 import com.agency.bankibm.model.TransactionType;
@@ -53,7 +51,6 @@ public class AccountService {
 
     @Transactional
     public AccountDTO sacar(int accountId, double valorSaque) {
-        // Obter a conta com base no ID
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
         if (!optionalAccount.isPresent()) {
             throw new RuntimeException("Conta não encontrada com ID: " + accountId);
@@ -111,7 +108,6 @@ public class AccountService {
         debitTransaction.setAccount(savedAccount);
         transactionsRepository.save(debitTransaction);
 
-        // Retornar o DTO da conta atualizada
         return savedAccount.toDTO();
     }
 
@@ -154,18 +150,14 @@ public class AccountService {
         creditTransaction.setAccount(savedAccount);
         transactionsRepository.save(creditTransaction);
 
-        // Retornar o DTO da conta atualizada
         return savedAccount.toDTO();
     }
 
-    // Método para salvar uma nova conta
     public AccountDTO saveAccount(AccountDTO dto) {
-        // Converte o DTO para Account e retorna o DTO
         Account account = new Account(dto);
         return account.toDTO();
     }
 
-    // Método para obter o saldo de uma conta com base no ID
     @Transactional(readOnly = true)
     public double getAccountBalance(int accountId) {
         // Obter a conta com base no ID
@@ -173,7 +165,6 @@ public class AccountService {
         if (!optionalAccount.isPresent()) {
             throw new RuntimeException("Conta não encontrada com ID: " + accountId);
         }
-        // Retorna o saldo da conta
         return optionalAccount.get().getBalance();
     }
 

@@ -1,4 +1,3 @@
-// TransactionsController.java
 package com.agency.bankibm.controller;
 
 import com.agency.bankibm.dto.TransactionsDTO;
@@ -38,7 +37,6 @@ public class TransactionsController {
         List<TransactionsDTO> transacoesDTO = transacoes.stream().map(Transactions::toDTO).collect(Collectors.toList());
         return ResponseEntity.ok(transacoesDTO);
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<TransactionsDTO> getTransactionById(@PathVariable int id) {
